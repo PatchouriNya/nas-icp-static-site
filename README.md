@@ -31,7 +31,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - /volume1/docker/icp-site:/usr/share/nginx/html
+      - /volume1/docker/icp-site:/data
     restart: unless-stopped
 ```
 
@@ -51,7 +51,7 @@ docker compose up -d
 
 ### 方式一：编辑 NAS 本地文件（推荐）
 
-直接在 NAS 文件管理器中编辑 `/volume1/docker/icp-site/index.html`，替换备案号后保存，刷新浏览器即生效，无需重启容器。
+直接在 NAS 文件管理器中编辑 `/volume1/docker/icp-site/index.html`，替换备案号后保存，**需重启容器生效**：`docker compose restart`
 
 ### 方式二：页面隐藏入口
 
