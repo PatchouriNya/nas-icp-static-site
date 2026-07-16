@@ -1,5 +1,5 @@
-.git/
-.github/
+.git
+.github
 README.md
 docker-compose.yml
 docker-compose.nas.yml

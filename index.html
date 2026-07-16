@@ -19,7 +19,7 @@
   }
   header {
     text-align: center;
-    padding: 80px 24px 0;
+    padding: 48px 24px 0;
   }
   header h1 {
     font-size: 2.4rem;
@@ -48,11 +48,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px 24px;
+    padding: 32px 24px;
   }
   .notice {
     text-align: center;
-    padding: 56px 48px 48px;
+    padding: 48px 40px 40px;
     border-radius: 24px;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
@@ -61,8 +61,8 @@
     border: 1px solid rgba(0,0,0,.04);
   }
   .notice-icon {
-    width: 64px; height: 64px;
-    margin: 0 auto 28px;
+    width: 56px; height: 56px;
+    margin: 0 auto 24px;
     border-radius: 50%;
     background: linear-gradient(135deg, #f0f0ff, #e8e0f4);
     display: flex;
@@ -72,7 +72,7 @@
   }
   .notice-icon::before {
     content: '';
-    width: 28px; height: 28px;
+    width: 24px; height: 24px;
     border-radius: 50%;
     border: 2.5px solid #8b7ec8;
     opacity: .7;
@@ -80,18 +80,18 @@
   .notice-icon::after {
     content: '';
     position: absolute;
-    width: 10px; height: 10px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     background: #667eea;
-    top: 14px; left: 14px;
+    top: 12px; left: 12px;
     opacity: .5;
   }
   .notice h2 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #1e293b;
     letter-spacing: 0.02em;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .notice p {
     font-size: .88rem;
@@ -102,23 +102,27 @@
   footer {
     width: 100%;
     text-align: center;
-    padding: 22px 16px;
+    padding: 18px 16px;
     background: #fff;
     border-top: 1px solid rgba(0,0,0,.05);
+    position: sticky;
+    bottom: 0;
   }
-  footer p { font-size: 0.8rem; color: #94a3b8; line-height: 1.8; }
+  footer p { font-size: 0.82rem; color: #64748b; line-height: 1.8; }
   footer a { color: #6366f1; text-decoration: none; font-weight: 500; transition: color .2s; }
   footer a:hover { color: #764ba2; }
   @media (max-width: 480px) {
-    header { padding: 56px 20px 0; }
-    header h1 { font-size: 1.7rem; }
+    header { padding: 36px 20px 0; }
+    header h1 { font-size: 1.6rem; }
     header .subtitle { font-size: 0.82rem; }
-    .divider { width: 32px; margin-top: 20px; }
-    .notice { padding: 40px 28px 36px; border-radius: 20px; }
-    .notice-icon { width: 52px; height: 52px; margin-bottom: 22px; }
-    .notice-icon::before { width: 22px; height: 22px; }
-    .notice-icon::after { width: 8px; height: 8px; top: 12px; left: 12px; }
-    .notice h2 { font-size: 1.1rem; }
+    .divider { width: 32px; margin-top: 18px; }
+    main { padding: 24px 16px; }
+    .notice { padding: 32px 24px 28px; border-radius: 20px; }
+    .notice-icon { width: 44px; height: 44px; margin-bottom: 18px; }
+    .notice-icon::before { width: 20px; height: 20px; }
+    .notice-icon::after { width: 7px; height: 7px; top: 10px; left: 10px; }
+    .notice h2 { font-size: 1.05rem; }
+    .notice p { font-size: .82rem; }
   }
   /* 编辑面板 */
   #edit-panel {
@@ -134,7 +138,8 @@
     width: 340px;
     max-width: 90vw;
   }
-  #edit-panel h3 { font-size: .9rem; font-weight: 600; margin-bottom: 14px; color: #1e293b; }
+  #edit-panel h3 { font-size: .9rem; font-weight: 600; margin-bottom: 6px; color: #1e293b; }
+  #edit-panel .hint { font-size: .75rem; color: #94a3b8; margin-bottom: 12px; line-height: 1.5; }
   #edit-panel input {
     width: 100%;
     padding: 10px 12px;
@@ -158,6 +163,7 @@
   #edit-panel .cancel:hover { background: #e2e8f0; }
   #edit-panel .save { background: #6366f1; color: #fff; }
   #edit-panel .save:hover { background: #4f46e5; }
+  #edit-panel .save:disabled { opacity: .5; cursor: not-allowed; }
   #overlay {
     display: none;
     position: fixed;
@@ -188,6 +194,7 @@
   <div id="overlay"></div>
   <div id="edit-panel">
     <h3>修改备案号</h3>
+    <p class="hint">修改后所有设备立即生效，无需重启</p>
     <input id="icp-input" type="text" placeholder="例：京ICP备12345678号-1" />
     <div class="btns">
       <button class="cancel" id="btn-cancel">取消</button>
@@ -198,16 +205,19 @@
 (function(){
   var k=0,t=null,icp=document.getElementById('icp-link'),inp=document.getElementById('icp-input'),
       panel=document.getElementById('edit-panel'),ov=document.getElementById('overlay'),
-      title=document.getElementById('site-title');
-  if(localStorage.icp){icp.textContent=localStorage.icp;}
+      title=document.getElementById('site-title'),btnSave=document.getElementById('btn-save');
   title.addEventListener('click',function(){k++;clearTimeout(t);t=setTimeout(function(){k=0;},800);if(k>=5){k=0;openPanel();}});
   function openPanel(){inp.value=icp.textContent;panel.style.display='block';ov.style.display='block';inp.focus();}
-  function closePanel(){panel.style.display='none';ov.style.display='none';}
+  function closePanel(){panel.style.display='none';ov.style.display='none';btnSave.disabled=false;btnSave.textContent='保存';}
   document.getElementById('btn-cancel').onclick=closePanel;
   ov.onclick=closePanel;
-  document.getElementById('btn-save').onclick=function(){
+  btnSave.onclick=function(){
     var v=inp.value.trim();if(!v)return;
-    icp.textContent=v;localStorage.icp=v;closePanel();
+    btnSave.disabled=true;btnSave.textContent='保存中...';
+    fetch('/api/icp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({icp:v})})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d.ok){icp.textContent=v;closePanel();}else{btnSave.disabled=false;btnSave.textContent='保存';}})
+    .catch(function(){btnSave.disabled=false;btnSave.textContent='保存';});
   };
 })();
 </script>
