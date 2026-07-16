@@ -31,8 +31,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      # 挂载 index.html 到 NAS 本地目录，方便直接改备案号
-      - /volume1/docker/icp-site/index.html:/usr/share/nginx/html/index.html:ro
+      - /volume1/docker/icp-site:/usr/share/nginx/html
     restart: unless-stopped
 ```
 
@@ -52,7 +51,7 @@ docker compose up -d
 
 ### 方式一：编辑 NAS 本地文件（推荐）
 
-由于挂载了本地 `index.html`，直接在 NAS 文件管理器或 SSH 中编辑 `/volume1/docker/icp-site/index.html`，替换备案号后保存，刷新浏览器即生效，无需重启容器。
+直接在 NAS 文件管理器中编辑 `/volume1/docker/icp-site/index.html`，替换备案号后保存，刷新浏览器即生效，无需重启容器。
 
 ### 方式二：页面隐藏入口
 
@@ -87,7 +86,7 @@ docker compose pull && docker compose up -d
 编辑 `index.html` 即可修改：
 
 - 站点名称：`<h1>个人博客</h1>`
-- 一句话介绍：`<p>记录生活，分享思考</p>`
+- 一句话介绍：`<p class="subtitle">记录生活，分享思考</p>`
 - 建设中文案：`<h2>网站建设中</h2>`
 - 副标题：`<p>内容正在筹备，敬请期待</p>`
 

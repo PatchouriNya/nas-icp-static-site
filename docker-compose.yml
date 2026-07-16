@@ -7,5 +7,4 @@ services:
     ports:
       - "8080:80"
     volumes:
-      # 挂载本地 index.html，方便直接改备案号，无需重新构建镜像
-      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./data:/usr/share/nginx/html

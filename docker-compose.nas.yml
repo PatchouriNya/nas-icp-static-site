@@ -5,6 +5,5 @@ services:
     ports:
       - "8080:80"
     volumes:
-      # 挂载 index.html 到 NAS 本地目录，方便直接改备案号
-      - /volume1/docker/icp-site/index.html:/usr/share/nginx/html/index.html:ro
+      - /volume1/docker/icp-site:/usr/share/nginx/html
     restart: unless-stopped
