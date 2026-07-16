@@ -25,7 +25,7 @@ class Handler(BaseHTTPRequestHandler):
                         content = f.read()
                     content = re.sub(
                         r'(<a id="icp-link"[^>]*>)(.*?)(</a>)',
-                        r'\g<1>' + re.escape(icp) + r'\g<3>',
+                        lambda m: m.group(1) + icp + m.group(3),
                         content
                     )
                     with open(path, 'w', encoding='utf-8') as f:
